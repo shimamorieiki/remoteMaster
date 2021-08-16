@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,30 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // routeの書き方が変わった
 // https://teratail.com/questions/292482#reply-413765
-// Route::get('/test', 'TestAPIController@index');
-// Route::get('/',"BbsEntryController@index");
+// TestAPIControllerはいじらない
 Route::get('/test', [TestAPIController::class, 'index']);
+
+// ログイン
+// Route::get($uri, $callback);
+// Route::post($uri, $callback);
+// Route::put($uri, $callback);
+// Route::patch($uri, $callback);
+// Route::delete($uri, $callback);
+// Route::options($uri, $callback);
+
+// リモ達
+// Route::get($uri, $callback);
+// Route::post($uri, $callback);
+// Route::put($uri, $callback);
+// Route::patch($uri, $callback);
+// Route::delete($uri, $callback);
+// Route::options($uri, $callback);
+
+
+// 宝くじ
+// Route::get($uri, $callback);
+// Route::post($uri, $callback);
+// Route::put($uri, $callback);
+// Route::patch($uri, $callback);
+// Route::delete($uri, $callback);
+// Route::options($uri, $callback);

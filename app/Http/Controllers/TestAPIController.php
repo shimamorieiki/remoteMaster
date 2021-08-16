@@ -11,7 +11,7 @@ class TestAPIController extends Controller
    {
       $value = ['var' => true];
 		return response()->json(
-         $result, 
+         $value, 
          200, 
          ['Content-Type' => 'application/json'],
          JSON_UNESCAPED_SLASHES
