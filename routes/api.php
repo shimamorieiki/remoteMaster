@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestAPIController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::get('/test', [TestAPIController::class, 'index']);
 // Route::options($uri, $callback);
 
 // リモ達
-// Route::get($uri, $callback);
+Route::get('/user', [UserController::class, 'getStudents']);
 // Route::post($uri, $callback);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
