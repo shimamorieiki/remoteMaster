@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// routeの書き方が変わった
+// https://teratail.com/questions/292482#reply-413765
+// Route::get('/test', 'TestAPIController@index');
+// Route::get('/',"BbsEntryController@index");
+Route::get('/test', [TestAPIController::class, 'index']);
