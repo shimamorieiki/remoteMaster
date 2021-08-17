@@ -9,6 +9,12 @@ http://localhost/api/test
 http://localhost/api/tes
 ###
 
+# DB接続の例
+###
+http://localhost/api/db
+###
+
+
 # ログイン
 # tokenベースのログインがlaravelに存在するのでそれを使いたい
 # httpだけしかないのでssl化までするんだったらもう少し考える

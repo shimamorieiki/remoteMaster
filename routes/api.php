@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestAPIController;
+use App\Http\Controllers\TestDBController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -24,6 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // https://teratail.com/questions/292482#reply-413765
 // TestAPIControllerはいじらない
 Route::get('/test', [TestAPIController::class, 'index']);
+
+Route::get('/db', [TestDBController::class, 'index']);
 
 // ログイン
 // Route::get($uri, $callback);

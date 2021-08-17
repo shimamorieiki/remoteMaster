@@ -1,11 +1,9 @@
-DROP TABLE IF EXISTS users;
-CREATE TABLE users (
+DROP TABLE IF EXISTS grades;
+CREATE TABLE grades (
   id integer,
-  name varchar(255),
-  age integer
+  type varchar(255),
 );
-INSERT INTO users
+INSERT INTO grades
 VALUES
-  (1, 'Alice', 20),
-  (2, 'Bob', 30),
-  (3, 'Carol', 40);
+  (1, 'rootUser'),
+  (2, 'commonUser');
