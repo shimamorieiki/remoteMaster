@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGradesTable extends Migration
+class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateGradesTable extends Migration
      */
     public function up()
     {
-        Schema::create('grades', function (Blueprint $table) {
-            $table->id()->unsigned();
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
             $table->string('type')->unique();
+            $table->foreignid('grade_id')->references('id')->on('grades');
+            $table->foreignid('genre_id')->references('id')->on('genres');
         });
     }
 
@@ -26,6 +28,6 @@ class CreateGradesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('tasks');
     }
 }

@@ -28,6 +28,7 @@ Route::get('/test', [TestAPIController::class, 'index']);
 
 Route::get('/db', [TestDBController::class, 'index']);
 
+Route::get('/user', [UserController::class, 'index']);
 // ログイン
 // Route::get($uri, $callback);
 // Route::post($uri, $callback);
