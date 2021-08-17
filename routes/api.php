@@ -28,7 +28,7 @@ Route::get('/test', [TestAPIController::class, 'index']);
 
 Route::get('/db', [TestDBController::class, 'index']);
 
-Route::get('/user', [UserController::class, 'index']);
+// Route::get('/user', [UserController::class, 'index']);
 // ログイン
 // Route::get($uri, $callback);
 // Route::post($uri, $callback);
@@ -38,8 +38,8 @@ Route::get('/user', [UserController::class, 'index']);
 // Route::options($uri, $callback);
 
 // リモ達
-Route::get('/user', [UserController::class, 'getStudents']);
-// Route::post($uri, $callback);
+Route::get('/user', [UserController::class, 'get_users_with_token']);
+Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
 // Route::delete($uri, $callback);

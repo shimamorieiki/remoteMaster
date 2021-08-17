@@ -1,14 +1,3 @@
-
-# api/testで成功する例
-###
-http://localhost/api/test
-###
-
-# api/testで失敗する例
-###
-http://localhost/api/tes
-###
-
 # DB接続の例
 ###
 http://localhost/api/db
@@ -22,7 +11,6 @@ http://localhost/api/db
 ###
 POST http://localhost/api/login HTTP/1.1
 content-type: application/json
-
 {
     "name": "YamadaTaro",
     "email": "sample@example.co.jp",
@@ -30,19 +18,49 @@ content-type: application/json
 }
 ###
 
-# ユーザ情報取得
+# ユーザ情報取得(アクセストークンが存在しないとき)
 ###
 http://localhost/api/user
 ###
 
-# ユーザが達成項目にチェックする
+# ユーザ情報取得(headerに情報を入れるとき)
 ###
-POST http://localhost/api/user HTTP/1.1
+GET　http://localhost/api/user
+Authorization: taro
+
+###
+
+# ユーザ情報取得(tokenが存在するとき)
+###
+http://localhost/api/user?access_token=shiro
+###
+
+# ユーザ情報取得(tokenが存在しないとき)
+###
+http://localhost/api/user?access_token=goro
+###
+
+# ユーザが達成項目にチェックする
+# チェックの可否はフロントエンドで制御
+# チェックできない/チェックを外せない時はエラー
+###
+POST http://localhost/api/user?access_token=taro HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Yamada Taro",
-    "email": "sample@example.co.jp"
+    "task_id": 1,
+    "task_is_checked" : true
+}
+###
+
+# ユーザが達成項目のチェックを外す
+###
+POST http://localhost/api/user?access_token=taro HTTP/1.1
+content-type: application/json
+
+{
+    "task_id": 1,
+    "task_is_checked" : false
 }
 ###
 
@@ -52,7 +70,7 @@ POST http://localhost/api/user HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Yamada Taro",
+    "name": "taro",
     "email": "sample@example.co.jp"
 }
 ###
