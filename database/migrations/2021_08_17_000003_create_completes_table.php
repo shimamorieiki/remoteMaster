@@ -15,7 +15,6 @@ class CreateCompletesTable extends Migration
     {
         Schema::create('completes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type')->unique();
             $table->integer('user_id')->unsigned()->constrained();
             $table->integer('task_id')->unsigned()->constrained();
         });

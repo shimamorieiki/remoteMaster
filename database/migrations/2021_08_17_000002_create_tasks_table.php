@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('type')->unique();
             $table->integer('grade_id')->unsigned()->constrained();
             $table->integer('genre_id')->unsigned()->constrained();
+            $table->text('description');
         });
     }
 
