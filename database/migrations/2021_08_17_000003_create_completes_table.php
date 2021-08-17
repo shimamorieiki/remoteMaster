@@ -15,14 +15,9 @@ class CreateCompletesTable extends Migration
     {
         Schema::create('completes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type')->unique();            
-            // $table->foreignId('user_id')->constrained();
-            // $table->foreignId('task_id')->constrained();
-            $table->integer('user_id')->unsigned();// 符号無し属性に変更
-            $table->foreign('user_id')->references('id')->on('users');  
-            $table->integer('task_id')->unsigned();// 符号無し属性に変更
-            $table->foreign('task_id')->references('id')->on('tasks');  
-
+            $table->string('type')->unique();
+            $table->integer('user_id')->unsigned()->constrained();
+            $table->integer('task_id')->unsigned()->constrained();
         });
     }
 

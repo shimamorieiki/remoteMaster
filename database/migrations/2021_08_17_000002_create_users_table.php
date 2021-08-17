@@ -18,9 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            // $table->foreignid('role_id')->constrained()
-            $table->integer('role_id')->unsigned();// 符号無し属性に変更
-            $table->foreign('role_id')->references('id')->on('roles');  
+            $table->integer('role_id')->unsigned()->constrained();
             // $table->string('api_token', 80)->after('password')
             //     ->unique()
             //     ->nullable()
