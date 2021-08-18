@@ -41,8 +41,8 @@ Route::post('/user', [UserController::class, 'post_completed_task']);
 
 
 // 宝くじ(api/lottery)
-// Route::get($uri, $callback);
-// Route::post($uri, $callback);
+Route::get('/lottery', [LotteryController::class, 'get_winner']);
+Route::post('/lottery', [LotteryController::class, 'post_voting']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
 // Route::delete($uri, $callback);
