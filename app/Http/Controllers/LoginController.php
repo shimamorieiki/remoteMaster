@@ -8,8 +8,8 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-   // indexアクションを定義（indexメソッドの定義と同義)
-   public function Login(Request $request)
+   // ログインを作ったけどもしかしたらlaravelに搭載されている機能を使うので必要ないかもしれない
+   public function login(Request $request)
    {
         $value = $request->input('value');
         return view('home')->with('val', $value);

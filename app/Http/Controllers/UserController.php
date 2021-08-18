@@ -8,7 +8,9 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
    // indexアクションを定義（indexメソッドの定義と同義)
+   // 特にログイン情報を使用することなくログインを行う
    public function get_users()
    {    
         $users = new User();
@@ -33,7 +35,7 @@ class UserController extends Controller
             JSON_UNESCAPED_SLASHES
         );
    }
-
+    //　ログインの実装方針によっては使わないかもしれない｀
    public function get_users_with_token(Request $request)
    {    
         $access_token = $request->input('access_token');
@@ -66,6 +68,9 @@ class UserController extends Controller
             JSON_UNESCAPED_SLASHES
         );
    }
+
+    // ヘッダー情報を用いてログインする
+    // ログインの実装方針によっては使わないかもしれない｀
    public function get_users_with_token_header(Request $request)
    {    
         $access_token = $request->header('Authorization');
