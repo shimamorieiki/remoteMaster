@@ -1,0 +1,76 @@
+# ログイン
+# tokenベースのログインがlaravelに存在するのでそれを使いたい
+# httpだけしかないのでssl化までするんだったらもう少し考える
+# http/1.1でいいのかは後から考える
+###
+POST http://localhost/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "name": "YamadaTaro",
+    "email": "sample@example.co.jp",
+    "password": "password"
+}
+###
+
+# ユーザ情報取得(アクセストークンが存在しないとき)
+###
+http://localhost/api/user
+###
+
+# ユーザ情報取得(headerに情報を入れるとき)
+###
+GET　http://localhost/api/user
+Authorization: taro
+
+###
+
+# ユーザ情報取得(tokenが存在するとき)
+###
+http://localhost/api/user?access_token=shiro
+###
+
+# ユーザ情報取得(tokenが存在しないとき)
+###
+http://localhost/api/user?access_token=goro
+###
+
+# ユーザが達成項目にチェックする
+# チェックの可否はフロントエンドで制御
+# チェックできない/チェックを外せない時はエラー
+###
+POST http://localhost/api/user?access_token=taro HTTP/1.1
+content-type: application/json
+
+{
+    "task_id": 1,
+    "task_is_checked" : true
+}
+###
+
+# ユーザが達成項目のチェックを外す
+###
+POST http://localhost/api/user?access_token=taro HTTP/1.1
+content-type: application/json
+
+{
+    "task_id": 1,
+    "task_is_checked" : false
+}
+###
+
+# 宝くじに応募する
+###
+POST http://localhost/api/user HTTP/1.1
+content-type: application/json
+
+{
+    "name": "taro",
+    "email": "sample@example.co.jp"
+}
+###
+
+# 宝くじ情報取得
+###
+http://localhost/api/lottery
+###
