@@ -35,27 +35,30 @@ http://localhost/api/user?access_token=shiro
 http://localhost/api/user?access_token=goro
 ###
 
-# ユーザが達成項目にチェックする
 # チェックの可否はフロントエンドで制御
 # チェックできない/チェックを外せない時はエラー
+
+# ユーザが達成項目にチェックする
+# "is_task_checked" : false は現在チェックしていないので「つけようとしている」
 ###
-POST http://localhost/api/user?access_token=taro HTTP/1.1
+POST http://localhost/api/user HTTP/1.1
 content-type: application/json
 
 {
     "task_id": 1,
-    "task_is_checked" : true
+    "is_task_checked" : false
 }
 ###
 
 # ユーザが達成項目のチェックを外す
+# "is_task_checked" : true は現在チェックしているから「外そうとしている」
 ###
-POST http://localhost/api/user?access_token=taro HTTP/1.1
+POST http://localhost/api/user HTTP/1.1
 content-type: application/json
 
 {
     "task_id": 1,
-    "task_is_checked" : false
+    "is_task_checked" : true
 }
 ###
 

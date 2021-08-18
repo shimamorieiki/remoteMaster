@@ -32,7 +32,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::options($uri, $callback);
 
 // リモ達(api/user)
-Route::get('/user', [UserController::class, 'get_users_with_token']);
+Route::get('/user', [UserController::class, 'get_user_info']);
 Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
