@@ -2,10 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestAPIController;
-use App\Http\Controllers\TestDBController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\LotteryController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,12 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // routeの書き方が変わった
 // https://teratail.com/questions/292482#reply-413765
-// TestAPIControllerはいじらない
-Route::get('/test', [TestAPIController::class, 'index']);
 
-Route::get('/db', [TestDBController::class, 'index']);
-
-// Route::get('/user', [UserController::class, 'index']);
 // ログイン
 // Route::get($uri, $callback);
 // Route::post($uri, $callback);
@@ -37,7 +31,7 @@ Route::get('/db', [TestDBController::class, 'index']);
 // Route::delete($uri, $callback);
 // Route::options($uri, $callback);
 
-// リモ達
+// リモ達(api/user)
 Route::get('/user', [UserController::class, 'get_users_with_token']);
 Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::put($uri, $callback);
@@ -46,7 +40,7 @@ Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::options($uri, $callback);
 
 
-// 宝くじ
+// 宝くじ(api/lottery)
 // Route::get($uri, $callback);
 // Route::post($uri, $callback);
 // Route::put($uri, $callback);
