@@ -16,7 +16,11 @@ use App\Http\Controllers\Auth\RegisterController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+// ユーザー登録
+Route::post('/register', [RegisterController::class, 'register']);
 
+// ログイン
+Route::post('/login', [LoginController::class, 'login']);
 // Route::get('/user', [UserController::class, 'get_user_info']);
 
 // Route::post('/register', 'Api\Auth\RegisterController@register');

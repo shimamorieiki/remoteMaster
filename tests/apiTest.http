@@ -4,16 +4,25 @@
 
 # ユーザ登録
 ###
-http://localhost/api/user
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+POST http://localhost/api/register HTTP/1.1
+content-type: application/json
 
+{
+    "name": "shima",
+    "email" : "sample@gmail.com",
+    "password": "pass"
+}
 ###
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
-http://localhost/api/user
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+POST http://localhost/api/login HTTP/1.1
+content-type: application/json
 
+{
+    "email" : "sample@gmail.com",
+    "password": "pass"
+}
 ###
 
 # ログアウト(認証情報を書き換える？)
@@ -26,7 +35,7 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 # ユーザ情報取得
 ###
 http://localhost/api/user
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+Authorization: Bearer 5|F6vti1oN34yRlsGEtM9I6wHUikE7YsxWx7BsfJxn
 
 ###
 
@@ -41,7 +50,7 @@ content-type: application/json
 Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 {
-    "task_id": 3,
+    "task_id": 6,
     "is_task_checked" : false
 }
 ###
@@ -54,7 +63,7 @@ content-type: application/json
 Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 {
-    "task_id": 1,
+    "task_id": 2,
     "is_task_checked" : true
 }
 ###
