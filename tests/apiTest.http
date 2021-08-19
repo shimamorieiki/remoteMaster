@@ -1,38 +1,42 @@
-# ログイン
-# tokenベースのログインがlaravelに存在するのでそれを使いたい
-# httpだけしかないのでssl化までするんだったらもう少し考える
-# http/1.1でいいのかは後から考える
+# ユーザーeikiのtoken
+# y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+
+
+# ユーザ登録
+###
+POST http://localhost/api/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "shima",
+    "email" : "sample@gmail.com",
+    "password": "pass"
+}
+###
+
+# ログイン(認証情報をもとにaccess_tokenを取得)
 ###
 POST http://localhost/api/login HTTP/1.1
 content-type: application/json
 
 {
-    "name": "YamadaTaro",
-    "email": "sample@example.co.jp",
-    "password": "password"
+    "email" : "sample@gmail.com",
+    "password": "pass"
 }
 ###
 
-# ユーザ情報取得(アクセストークンが存在しないとき)
+# ログアウト(認証情報を書き換える？)
 ###
 http://localhost/api/user
-###
-
-# ユーザ情報取得(headerに情報を入れるとき)
-###
-GET　http://localhost/api/user
-Authorization: taro
+Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 ###
 
-# ユーザ情報取得(tokenが存在するとき)
+# ユーザ情報取得
 ###
-http://localhost/api/user?access_token=shiro
-###
+http://localhost/api/user
+Authorization: Bearer 5|F6vti1oN34yRlsGEtM9I6wHUikE7YsxWx7BsfJxn
 
-# ユーザ情報取得(tokenが存在しないとき)
-###
-http://localhost/api/user?access_token=goro
 ###
 
 # チェックの可否はフロントエンドで制御
@@ -43,9 +47,10 @@ http://localhost/api/user?access_token=goro
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
+Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 {
-    "task_id": 1,
+    "task_id": 6,
     "is_task_checked" : false
 }
 ###
@@ -55,9 +60,10 @@ content-type: application/json
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
+Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 {
-    "task_id": 1,
+    "task_id": 2,
     "is_task_checked" : true
 }
 ###
@@ -65,6 +71,8 @@ content-type: application/json
 # 宝くじ情報取得
 ###
 http://localhost/api/lottery
+Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+
 ###
 
 
@@ -72,9 +80,9 @@ http://localhost/api/lottery
 ###
 POST http://localhost/api/lottery HTTP/1.1
 content-type: application/json
+Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
 {
-    "user_id": 4,
     "voting_number": 100
 }
 ###

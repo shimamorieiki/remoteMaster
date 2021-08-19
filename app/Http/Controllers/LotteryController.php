@@ -72,10 +72,11 @@ class LotteryController extends Controller
     public function post_voting(Request $request)
     {    
     
+        // ユーザのidを取得
+        $user_id = $request->user()->id;
+
+        // 投票した数字を取得
         $request_json = json_decode($request->getContent(),true);
-        
-        // 各要素を取得
-        $user_id = $request_json["user_id"];
         $voting_number = $request_json["voting_number"];
 
         // ユーザに投票権が存在するか確認する
