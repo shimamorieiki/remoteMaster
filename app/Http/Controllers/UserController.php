@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Complete;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\HasApiTokens;
 
 class UserController extends Controller
 {

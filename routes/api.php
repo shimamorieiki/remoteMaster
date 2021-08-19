@@ -24,7 +24,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // https://teratail.com/questions/292482#reply-413765
 
 // ログイン
-// Route::get($uri, $callback);
+Route::get('/', function () {
+    // return view('welcome');
+    $user = Auth::loginUsingId(1);
+    $token = $user->createToken('test');
+    dd($token);
+});
 // Route::post($uri, $callback);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);

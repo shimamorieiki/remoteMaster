@@ -13,6 +13,12 @@ content-type: application/json
 }
 ###
 
+# ログイン
+###
+http://localhost/api/
+###
+
+
 # ユーザ情報取得(アクセストークンが存在しないとき)
 ###
 http://localhost/api/user
