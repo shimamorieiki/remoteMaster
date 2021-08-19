@@ -7,6 +7,8 @@ use App\Models\Genre;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Complete;
+use Illuminate\Support\Facades\DB;
+
 
 class LotteryController extends Controller
 {
@@ -44,15 +46,12 @@ class LotteryController extends Controller
         } else {
             // 該当者あり
             // 該当するuserの名前を返す
-            $winner_id = Vote::select('user_id')
-                            ->where('voting_number','=',$min_number)
-                            ->first()
-                            ->user_id;
-
-            $winner_name = User::select('name')
-                            ->where('id','=',$winner_id)
-                            ->first()
-                            ->name;
+            $winner_name = DB::table('users')
+            ->join('votes', 'users.id', '=', 'votes.user_id')
+            ->select('users.name')
+            ->where('votes.voting_number','=',$min_number)
+            ->first()
+            ->name;
 
             $STATUSCODE = 200;
             $value = [
