@@ -15,11 +15,13 @@ class UserController extends Controller
 {
 
    // 特にログイン情報を使用することなくログインを行う
-   public function get_user_info()
+   public function get_user_info(Request $request)
    {    
+        // storage/logs/laravel.logに情報を保存
+        // info($request->user());
+
         // ユーザ情報を取得
-        // 本来ならaccesstokenなどで認証して取得する
-        $user = User::select()->where('name','=','jiro')->first();
+        $user = $request->user();
 
         // 達成したカラムを取得する
         $completes = Complete::select()
@@ -41,7 +43,6 @@ class UserController extends Controller
         for ($i=0; $i < count($tasks); $i++) { 
             $tasks[$i]->is_completed = in_array($tasks[$i]->id, $completes);
         }
-        // コメント
 
         $STATUSCODE = 200;
         $value = [
@@ -54,57 +55,6 @@ class UserController extends Controller
             JSON_UNESCAPED_SLASHES
         );
    }
-//     //　ログインの実装方針によっては使わないかもしれない｀
-//    public function get_users_with_token(Request $request)
-//    {    
-//         $access_token = $request->input('access_token');
-//         if (empty($access_token)) {
-//             $STATUSCODE = 400;
-//             $value = [
-//                 'response' => "not authorized"
-//             ];
-//         }else {
-//             $users = new User();
-//             $user = $users -> select('name', 'email')->where('name','=',$access_token)->get();
-//             if (empty($user) or count($user) == 0) {
-//                 $STATUSCODE = 400;
-//                 $value = [
-//                     'response' => "not authorized"
-//                 ];
-//             } else {
-//                 $STATUSCODE = 200;
-//                 $value = [
-//                     'response' => $user,
-//                     'token' => $access_token
-//                 ];
-//             }
-//         }
-        
-//         return response()->json(
-//             $value, 
-//             $STATUSCODE, 
-//             ['Content-Type' => 'application/json'],
-//             JSON_UNESCAPED_SLASHES
-//         );
-//    }
-
-//     // ヘッダー情報を用いてログインする
-//     // ログインの実装方針によっては使わないかもしれない｀
-//    public function get_users_with_token_header(Request $request)
-//    {    
-//         $access_token = $request->header('Authorization');
-//         $STATUSCODE = 200;
-//         $value = [
-//             'response' => $user,
-//             'token' => $access_token
-//         ];
-//         return response()->json(
-//             $value, 
-//             $STATUSCODE, 
-//             ['Content-Type' => 'application/json'],
-//             JSON_UNESCAPED_SLASHES
-//         );
-//    }
 
     // completeしたタスクを送信する
    public function post_completed_task(Request $request)
@@ -113,9 +63,8 @@ class UserController extends Controller
         $comment_deny = "denied";
         $comment_accept = "accepted";
        
-       // user_idは本当はアクセストークンから取得したい 
-        $user_id = User::select('id')->where('name','=',"taro")->get()->first()->id;
-       
+        $user_id = $request->user()->id;
+
         $request_json = json_decode($request->getContent(),true);
         // チェックしたタスクのid
         $task_id = $request_json["task_id"];

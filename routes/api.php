@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LotteryController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,29 +17,19 @@ use App\Http\Controllers\LoginController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::get('/user', [UserController::class, 'get_user_info']);
+
+// Route::post('/register', 'Api\Auth\RegisterController@register');
+// Route::post('/login', 'Api\Auth\LoginController@login');
+// Route::post('/logout', 'Api\Auth\LoginController@logout');
 
 // routeの書き方が変わった
 // https://teratail.com/questions/292482#reply-413765
 
-// ログイン
-Route::get('/', function () {
-    // return view('welcome');
-    $user = Auth::loginUsingId(1);
-    $token = $user->createToken('test');
-    dd($token);
-});
-// Route::post($uri, $callback);
-// Route::put($uri, $callback);
-// Route::patch($uri, $callback);
-// Route::delete($uri, $callback);
-// Route::options($uri, $callback);
-
 // リモ達(api/user)
-Route::get('/user', [UserController::class, 'get_user_info']);
-Route::post('/user', [UserController::class, 'post_completed_task']);
+Route::middleware('auth:sanctum')->get('/user',[UserController::class, 'get_user_info']);
+Route::middleware('auth:sanctum')->post('/user', [UserController::class, 'post_completed_task']);
+// Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
 // Route::delete($uri, $callback);
@@ -46,8 +37,8 @@ Route::post('/user', [UserController::class, 'post_completed_task']);
 
 
 // 宝くじ(api/lottery)
-Route::get('/lottery', [LotteryController::class, 'get_winner']);
-Route::post('/lottery', [LotteryController::class, 'post_voting']);
+Route::middleware('auth:sanctum')->get('/lottery', [LotteryController::class, 'get_winner']);
+Route::middleware('auth:sanctum')->post('/lottery', [LotteryController::class, 'post_voting']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
 // Route::delete($uri, $callback);
