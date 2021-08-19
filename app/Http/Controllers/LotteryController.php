@@ -14,12 +14,14 @@ class LotteryController extends Controller
    // 当選者情報を取得する
    public function get_winner()
    {    
+        
         // 投票結果を取得する
-        $votes = Vote::select('voting_number')->get();
-        $voting_numbers = array();
-        foreach ($votes as $key => $value) {
-            array_push($voting_numbers,$value["voting_number"]);
-        }
+        $voting_numbers = Vote::select('voting_number')
+        ->get()
+        ->pluck("voting_number")
+        ->all();
+
+        
         // 最小値を決める
         // {配列の要素,要素数}の連想配列を取得
         $number_length = array_count_values($voting_numbers);
@@ -34,7 +36,7 @@ class LotteryController extends Controller
         // 最小値のuser_idを取得
         if ($min_number == PHP_INT_MAX) {
             // 該当者なし
-            $STATUSCODE = 400;
+            $STATUSCODE = 200;
             $value = [
                 'winner_name' => 'null',
                 'winner_voting_number' => '-1'
@@ -99,12 +101,12 @@ class LotteryController extends Controller
                 $STATUSCODE = 200;
                 $message = "accepted";
             } else {
-                $STATUSCODE = 400;
-                $message = "denied";
+                $STATUSCODE = 500;
+                $message = "Server Error";
             }
         } else {
             $STATUSCODE = 400;
-            $message = "denied";
+            $message = "You are not allowed to vote.";
         }
 
         // 返却する要素

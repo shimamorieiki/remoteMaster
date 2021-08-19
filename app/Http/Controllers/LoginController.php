@@ -11,9 +11,6 @@ class LoginController extends Controller
    // ログインを作ったけどもしかしたらlaravelに搭載されている機能を使うので必要ないかもしれない
    public function login(Request $request)
    {
-        $value = $request->input('value');
-        return view('home')->with('val', $value);
-        
         $users = new User();
         $user = $users -> select('name', 'email','password')->get();
         $flag = TRUE;

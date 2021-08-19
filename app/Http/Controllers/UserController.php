@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Complete;
 use App\Models\Task;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -17,25 +18,32 @@ class UserController extends Controller
    {    
         // ユーザ情報を取得
         // 本来ならaccesstokenなどで認証して取得する
-        $user = User::select()->where('name','=','taro')->first();
+        $user = User::select()->where('name','=','jiro')->first();
 
+        // 達成したカラムを取得する
+        $completes = Complete::select()
+        ->where('user_id','=',$user->id)
+        ->get()
+        ->pluck("task_id")
+        ->all();
+        
+        // 全てのタスクを取得する
+        // grades.typeやgenre.typeを同時に取得する
+        $tasks = DB::table('tasks')
+        ->join('genres', 'genres.id', '=', 'tasks.genre_id')
+        ->join('grades', 'grades.id', '=', 'tasks.grade_id')
+        ->select('tasks.*', 'genres.type as genre_type','grades.type as grade_type')
+        ->get()
+        ->all();
 
-        $role = Role::select()->where('id','=',$user->role_id)->first();
-        $completes = Complete::select('task_id')->where('id','=',$user->id)->first();
-        $tasks_completed = Task::select()->where('id','=',$completes->task_id)->get();
-        $tasks_yet_completed = $tasks_completed;
-
-        // タスクのidを取得し、達成済みか未達成かを判断する
-        $user_info = array(
-            "name" => $user->name,
-            "role" => $role->type,
-            "tasks_completed" => $tasks_completed,
-            "tasks_yet_completed" => $tasks_yet_completed
-        );
+        // タスクを達成したかの情報を追加する
+        for ($i=0; $i < count($tasks); $i++) { 
+            $tasks[$i]->is_completed = in_array($tasks[$i]->id, $completes);
+        }
 
         $STATUSCODE = 200;
         $value = [
-            'response' => $user_info
+            'response' => $tasks
         ];
         return response()->json(
             $value, 
@@ -100,7 +108,6 @@ class UserController extends Controller
    public function post_completed_task(Request $request)
    {    
 
-        $STATUSCODE = 400;
         $comment_deny = "denied";
         $comment_accept = "accepted";
        
@@ -130,7 +137,7 @@ class UserController extends Controller
                 $STATUSCODE = 200;
                 $comment = $comment_accept;
             } else {
-                $STATUSCODE = 400;
+                $STATUSCODE = 500;
                 $comment = $comment_deny;
             }
 
@@ -146,7 +153,7 @@ class UserController extends Controller
                 $STATUSCODE = 200;
                 $comment = $comment_accept;
             } else {
-                $STATUSCODE = 400;
+                $STATUSCODE = 500;
                 $comment = $comment_deny;
             }
         } else {
