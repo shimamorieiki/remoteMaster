@@ -16,16 +16,12 @@ use App\Http\Controllers\Auth\RegisterController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 // ユーザー登録
 Route::post('/register', [RegisterController::class, 'register']);
 
 // ログイン
 Route::post('/login', [LoginController::class, 'login']);
-// Route::get('/user', [UserController::class, 'get_user_info']);
-
-// Route::post('/register', 'Api\Auth\RegisterController@register');
-// Route::post('/login', 'Api\Auth\LoginController@login');
-// Route::post('/logout', 'Api\Auth\LoginController@logout');
 
 // routeの書き方が変わった
 // https://teratail.com/questions/292482#reply-413765
@@ -33,7 +29,6 @@ Route::post('/login', [LoginController::class, 'login']);
 // リモ達(api/user)
 Route::middleware('auth:sanctum')->get('/user',[UserController::class, 'get_user_info']);
 Route::middleware('auth:sanctum')->post('/user', [UserController::class, 'post_completed_task']);
-// Route::post('/user', [UserController::class, 'post_completed_task']);
 // Route::put($uri, $callback);
 // Route::patch($uri, $callback);
 // Route::delete($uri, $callback);
