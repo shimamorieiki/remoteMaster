@@ -59,18 +59,19 @@ content-type: application/json
 }
 ###
 
-# 宝くじに応募する
-###
-POST http://localhost/api/user HTTP/1.1
-content-type: application/json
-
-{
-    "name": "taro",
-    "email": "sample@example.co.jp"
-}
-###
-
 # 宝くじ情報取得
 ###
 http://localhost/api/lottery
+###
+
+
+# 宝くじに応募する
+###
+POST http://localhost/api/lottery HTTP/1.1
+content-type: application/json
+
+{
+    "user_id": 4,
+    "voting_number": 100
+}
 ###
