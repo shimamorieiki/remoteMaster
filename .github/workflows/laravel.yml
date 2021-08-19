@@ -37,11 +37,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: composer install -n --prefer-dist
       - name: copy .env
-<<<<<<< HEAD
-        run: cp .env.ci .env
-=======
         run: cp .env.example .env
->>>>>>> 0fcd206498b92cc353cd9d32f4ec429c3667016f
       - name: generate key
         run: php artisan key:generate
       - name: migrate
