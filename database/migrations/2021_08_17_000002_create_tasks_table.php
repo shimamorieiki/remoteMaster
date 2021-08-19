@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->integer('grade_id')->unsigned()->constrained();
             $table->integer('genre_id')->unsigned()->constrained();
             $table->text('description');
+            $table->timestamps();
         });
     }
 
