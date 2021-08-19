@@ -64,14 +64,12 @@ class UserController extends Controller
         $comment_accept = "accepted";
        
         $user_id = $request->user()->id;
-
-        $request_json = json_decode($request->getContent(),true);
-        // チェックしたタスクのid
-        $task_id = $request_json["task_id"];
         
+        $task_id = $request->task_id;
+
         // 命名規則がわかりにくい
         // タスクをチェックしようとしたか外そうとしたか
-        $is_task_checked = $request_json["is_task_checked"];
+        $is_task_checked = $request->is_task_checked;
         
         // すでにそのタスクにチェックしたか
         $is_task_completed = Complete::select()
