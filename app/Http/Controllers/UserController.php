@@ -44,7 +44,7 @@ class UserController extends Controller
             $tasks[$i]->is_completed = in_array($tasks[$i]->id, $completes);
         }
 
-        $STATUSCODE = 200;
+        $STATUSCODE = Response::HTTP_OK;
         $value = [
             'response' => $tasks
         ];
@@ -83,10 +83,10 @@ class UserController extends Controller
                                                 ->where('user_id','=',$user_id)
                                                 ->delete();
             if ($is_completes_deleted) {
-                $STATUSCODE = 200;
+                $STATUSCODE = Response::HTTP_OK;
                 $comment = $comment_accept;
             } else {
-                $STATUSCODE = 500;
+                $STATUSCODE = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $comment = $comment_deny;
             }
 
@@ -99,16 +99,16 @@ class UserController extends Controller
                 ]
             );
             if ($is_completes_inserted) {
-                $STATUSCODE = 200;
+                $STATUSCODE = Response::HTTP_OK;
                 $comment = $comment_accept;
             } else {
-                $STATUSCODE = 500;
+                $STATUSCODE = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $comment = $comment_deny;
             }
         } else {
             // completeしたのに追加しようとしている
             // completeしていないのに削除しようとしている
-            $STATUSCODE = 400;
+            $STATUSCODE = Response::HTTP_BAD_REQUEST;
             $comment = $comment_deny;
         }
         $value =[

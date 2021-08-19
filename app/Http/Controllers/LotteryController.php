@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Vote;
 use App\Models\Complete;
 use Illuminate\Support\Facades\DB;
-
+use \Symfony\Component\HttpFoundation\Response;
 
 class LotteryController extends Controller
 {
@@ -38,7 +38,7 @@ class LotteryController extends Controller
         // 最小値のuser_idを取得
         if ($min_number == PHP_INT_MAX) {
             // 該当者なし
-            $STATUSCODE = 200;
+            $STATUSCODE = Response::HTTP_OK;
             $value = [
                 'winner_name' => 'null',
                 'winner_voting_number' => '-1'
@@ -53,7 +53,7 @@ class LotteryController extends Controller
             ->first()
             ->name;
 
-            $STATUSCODE = 200;
+            $STATUSCODE = Response::HTTP_OK;
             $value = [
                 'winner_name' => $winner_name,
                 'winner_voting_number' => $min_number
@@ -98,14 +98,14 @@ class LotteryController extends Controller
             
             // 正しく投票できたかを判断。
             if ($is_voting_inserted) {
-                $STATUSCODE = 200;
+                $STATUSCODE = Response::HTTP_OK;
                 $message = "accepted";
             } else {
-                $STATUSCODE = 500;
+                $STATUSCODE = Response::HTTP_INTERNAL_SERVER_ERROR;
                 $message = "Server Error";
             }
         } else {
-            $STATUSCODE = 400;
+            $STATUSCODE = Response::HTTP_BAD_REQUEST;
             $message = "You are not allowed to vote.";
         }
 
