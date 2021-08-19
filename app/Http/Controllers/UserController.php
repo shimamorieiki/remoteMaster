@@ -40,6 +40,7 @@ class UserController extends Controller
         for ($i=0; $i < count($tasks); $i++) { 
             $tasks[$i]->is_completed = in_array($tasks[$i]->id, $completes);
         }
+        // コメント
 
         $STATUSCODE = 200;
         $value = [
