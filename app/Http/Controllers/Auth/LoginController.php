@@ -27,6 +27,6 @@ class LoginController extends Controller
             return response()->json(['token' => $token ], Response::HTTP_OK);
         }
 
-        return response()->json('User Not Found.', Response::HTTP_INTERNAL_SERVER_ERROR);
+        return response()->json('User Not Found.', Response::HTTP_BAD_REQUEST);
     }
 }

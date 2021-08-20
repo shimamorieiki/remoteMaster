@@ -31,7 +31,6 @@ class UserController extends Controller
         ->all();
         
         // 全てのタスクを取得する
-        // grades.typeやgenre.typeを同時に取得する
         $tasks = DB::table('tasks')
         ->join('genres', 'genres.id', '=', 'tasks.genre_id')
         ->join('grades', 'grades.id', '=', 'tasks.grade_id')
@@ -44,13 +43,9 @@ class UserController extends Controller
             $tasks[$i]->is_completed = in_array($tasks[$i]->id, $completes);
         }
 
-        $STATUSCODE = 200;
-        $value = [
-            'response' => $tasks
-        ];
         return response()->json(
-            $value, 
-            $STATUSCODE, 
+            ['response' => $tasks],
+            Response::HTTP_OK, 
             ['Content-Type' => 'application/json'],
             JSON_UNESCAPED_SLASHES
         );
@@ -59,12 +54,8 @@ class UserController extends Controller
     // completeしたタスクを送信する
    public function post_completed_task(Request $request)
    {    
-
-        $comment_deny = "denied";
-        $comment_accept = "accepted";
        
         $user_id = $request->user()->id;
-        
         $task_id = $request->task_id;
 
         // 命名規則がわかりにくい
@@ -83,11 +74,9 @@ class UserController extends Controller
                                                 ->where('user_id','=',$user_id)
                                                 ->delete();
             if ($is_completes_deleted) {
-                $STATUSCODE = 200;
-                $comment = $comment_accept;
+                return response()->json('Accepted', Response::HTTP_OK);
             } else {
-                $STATUSCODE = 500;
-                $comment = $comment_deny;
+                return response()->json('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
         } elseif (!$is_task_completed && !$is_task_checked) {
@@ -99,26 +88,14 @@ class UserController extends Controller
                 ]
             );
             if ($is_completes_inserted) {
-                $STATUSCODE = 200;
-                $comment = $comment_accept;
+                return response()->json('Accepted', Response::HTTP_OK);
             } else {
-                $STATUSCODE = 500;
-                $comment = $comment_deny;
+                return response()->json('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         } else {
             // completeしたのに追加しようとしている
             // completeしていないのに削除しようとしている
-            $STATUSCODE = 400;
-            $comment = $comment_deny;
+            return response()->json('Request Denied', Response::HTTP_BAD_REQUEST);
         }
-        $value =[
-            'comment' => $comment
-        ];
-        return response()->json(
-            $value, 
-            $STATUSCODE, 
-            ['Content-Type' => 'application/json'],
-            JSON_UNESCAPED_SLASHES
-        );
    }
 }

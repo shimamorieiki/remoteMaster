@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Vote;
 use App\Models\Complete;
 use Illuminate\Support\Facades\DB;
-
+use \Symfony\Component\HttpFoundation\Response;
 
 class LotteryController extends Controller
 {
@@ -38,31 +38,34 @@ class LotteryController extends Controller
         // 最小値のuser_idを取得
         if ($min_number == PHP_INT_MAX) {
             // 該当者なし
-            $STATUSCODE = 200;
             $value = [
                 'winner_name' => 'null',
                 'winner_voting_number' => '-1'
             ];
-        } else {
-            // 該当者あり
-            // 該当するuserの名前を返す
-            $winner_name = DB::table('users')
-            ->join('votes', 'users.id', '=', 'votes.user_id')
-            ->select('users.name')
-            ->where('votes.voting_number','=',$min_number)
-            ->first()
-            ->name;
-
-            $STATUSCODE = 200;
-            $value = [
-                'winner_name' => $winner_name,
-                'winner_voting_number' => $min_number
-            ];
+            return response()->json(
+                $value, 
+                Response::HTTP_OK, 
+                ['Content-Type' => 'application/json'],
+                JSON_UNESCAPED_SLASHES
+            );
         }
+        
+        // 該当者あり
+        // 該当するuserの名前を返す
+        $winner_name = DB::table('users')
+        ->join('votes', 'users.id', '=', 'votes.user_id')
+        ->select('users.name')
+        ->where('votes.voting_number','=',$min_number)
+        ->first()
+        ->name;
 
+        $value = [
+            'winner_name' => $winner_name,
+            'winner_voting_number' => $min_number
+        ];
         return response()->json(
             $value, 
-            $STATUSCODE, 
+            Response::HTTP_OK, 
             ['Content-Type' => 'application/json'],
             JSON_UNESCAPED_SLASHES
         );
@@ -86,39 +89,24 @@ class LotteryController extends Controller
         // 2. すでに投票したかを判断
         $is_user_voted = Vote::select()->where('user_id','=',$user_id)->exists();
 
-        // 条件を元に投票する
-        if ($completes_count > 15 && ! $is_user_voted) {
-            // 投票する
-            $is_voting_inserted = Vote::insertGetId(
-                [
-                    'user_id' => $user_id,
-                    'voting_number' => $voting_number
-                ]
-            );
-            
-            // 正しく投票できたかを判断。
-            if ($is_voting_inserted) {
-                $STATUSCODE = 200;
-                $message = "accepted";
-            } else {
-                $STATUSCODE = 500;
-                $message = "Server Error";
-            }
-        } else {
-            $STATUSCODE = 400;
-            $message = "You are not allowed to vote.";
+        // 投票権がない
+        if ($completes_count <= 14 || $is_user_voted) {
+            return response()->json('You are not allowed to vote.', Response::HTTP_BAD_REQUEST);
         }
 
-        // 返却する要素
-        $value = [
-            'message' => $message
-        ];
-
-        return response()->json(
-            $value, 
-            $STATUSCODE, 
-            ['Content-Type' => 'application/json'],
-            JSON_UNESCAPED_SLASHES
+        // 投票する
+        $is_voting_inserted = Vote::insertGetId(
+            [
+                'user_id' => $user_id,
+                'voting_number' => $voting_number
+            ]
         );
+        
+        // 正しく投票できたかを判断。
+        if ($is_voting_inserted) {
+            return response()->json('Accepted', Response::HTTP_OK);
+        } else {
+            return response()->json('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
