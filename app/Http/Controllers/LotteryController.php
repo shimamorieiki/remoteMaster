@@ -17,6 +17,13 @@ class LotteryController extends Controller
    public function get_winner()
    {    
         
+        // ユーザのrole_idを取得
+        $role_id = $request->user()->role_id;
+        // $role = (0,管理者),(1,一般ユーザ)
+        if ($role_id == 1) {
+            return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
+        }
+
         // 投票結果を取得する
         $voting_numbers = Vote::select('voting_number')
         ->get()
@@ -74,7 +81,14 @@ class LotteryController extends Controller
     // くじに申し込む
     public function post_voting(Request $request)
     {    
-    
+
+        // ユーザのrole_idを取得
+        $role_id = $request->user()->role_id;
+        // $role = (0,管理者),(1,一般ユーザ)
+        if ($role_id == 0) {
+            return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
+        }
+        
         // ユーザのidを取得
         $user_id = $request->user()->id;
 
