@@ -17,6 +17,7 @@ class CreateCompletesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->constrained();
             $table->integer('task_id')->unsigned()->constrained();
+            $table->timestamps();
         });
     }
 
