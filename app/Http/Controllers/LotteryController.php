@@ -16,10 +16,11 @@ class LotteryController extends Controller
    // 当選者情報を取得する
    public function get_winner(Request $request)
    {    
-        
+
         // $role = (1,管理者),(2,一般ユーザ)
         // 一般ユーザは確認できない
-        if ($request->user()->role_id == 2) {
+        $general_role_id = 2;
+        if ($request->user()->role_id == $general_role_id) {
             return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
 
@@ -81,9 +82,16 @@ class LotteryController extends Controller
     public function post_voting(Request $request)
     {    
 
+        // ユーザが投票できる最小のポジティブタスク達成数(最低でもポジティブタスクを15個達成しないと投票できない)
+        $min_voting_positive_count = 15;
+
+        // ユーザが投票できる最大のネガティブタスク達成数(1つでもnegativeがあると投票できない)
+        $max_voting_negative_count = 0;
+
         // $role = (1,管理者),(2,一般ユーザ)
         // 管理者は投票できない
-        if ($request->user()->role_id == 1) {
+        $admin_role_id = 1;
+        if ($request->user()->role_id == $admin_role_id) {
             return response()->json('Admins are not allowed.', Response::HTTP_BAD_REQUEST);
         }
         
@@ -98,16 +106,17 @@ class LotteryController extends Controller
         
         // 1. ポジティブタスクを15個以上達成しているか
         // 2. ネガティブチェックがついているか
+
         $positive_counts = DB::table('completes')
         ->join('tasks', 'completes.task_id', '=', 'tasks.id')
         ->where('user_id','=',$user_id)
-        ->where('tasks.is_positive_check','=',1)
+        ->where('tasks.is_positive_check','=',TRUE)
         ->count();
 
         $negative_counts = DB::table('completes')
         ->join('tasks', 'completes.task_id', '=', 'tasks.id')
         ->where('user_id','=',$user_id)
-        ->where('tasks.is_positive_check','=',0)
+        ->where('tasks.is_positive_check','=',FALSE)
         ->count();
 
         // 本当は一回のDBアクセスで以下を得たい
@@ -134,7 +143,7 @@ class LotteryController extends Controller
         $is_user_voted = Vote::select()->where('user_id','=',$user_id)->exists();
 
         // 投票権がない
-        if ($positive_counts <= 14 || $negative_counts >= 1 || $is_user_voted) {
+        if ($positive_counts < $min_voting_positive_count  || $negative_counts > $max_voting_negative_count  || $is_user_voted) {
             return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
 
