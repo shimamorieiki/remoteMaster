@@ -14,7 +14,7 @@ class LotteryController extends Controller
 {
 
    // 当選者情報を取得する
-   public function get_winner()
+   public function get_winner(Request $request)
    {    
         
         // $role = (1,管理者),(2,一般ユーザ)

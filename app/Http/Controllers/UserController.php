@@ -10,6 +10,7 @@ use App\Models\Complete;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use \Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
