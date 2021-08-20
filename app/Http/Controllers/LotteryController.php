@@ -17,10 +17,9 @@ class LotteryController extends Controller
    public function get_winner()
    {    
         
-        // ユーザのrole_idを取得
-        $role_id = $request->user()->role_id;
-        // $role = (0,管理者),(1,一般ユーザ)
-        if ($role_id == 1) {
+        // $role = (1,管理者),(2,一般ユーザ)
+        // 一般ユーザは確認できない
+        if ($request->user()->role_id == 2) {
             return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
 
@@ -82,10 +81,9 @@ class LotteryController extends Controller
     public function post_voting(Request $request)
     {    
 
-        // ユーザのrole_idを取得
-        $role_id = $request->user()->role_id;
-        // $role = (0,管理者),(1,一般ユーザ)
-        if ($role_id == 0) {
+        // $role = (1,管理者),(2,一般ユーザ)
+        // 管理者は投票できない
+        if ($request->user()->role_id == 1) {
             return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
         
@@ -97,14 +95,36 @@ class LotteryController extends Controller
         $voting_number = $request_json["voting_number"];
 
         // ユーザに投票権が存在するか確認する
-        // 1. ユーザが達成したタスクの個数を取得(15個)
-        $completes_count = Complete::select()->where('user_id','=',$user_id)->count();
 
-        // 2. すでに投票したかを判断
+        // 1. ユーザが達成したポジティブタスクの個数を取得(15個)
+        // $completes_count = Complete::select()->where('user_id','=',$user_id)->where()->count();
+
+        // $tasks = DB::table('completes')
+        // ->join('tasks', 'completes.task_id', '=', 'id')
+        // ->where('user_id','=',$user_id)
+        // ->where('tasks.is_positive_check','=',0)
+        // ->count();
+
+        // 1. ユーザが達成したポジティブタスクの個数を取得(15個)
+        // 2. ネガティブチェックがついているか
+        $completed_counts = DB::table('completes')
+        ->join('tasks', 'completes.task_id', '=', 'id')
+        ->where('user_id','=',$user_id)
+        ->select(DB::raw('count(*) as completes_count, tasks.is_positive_check'))
+        ->groupBy('tasks.is_positive_check')
+        ->get();
+
+        // mapかtransformで以下に変換する
+        // $completed_counts = {
+        //  "positive"=>"ポジティブの個数,
+        //  "negative"=>"ネガティブの個数"
+        // }
+
+        // 3. すでに投票したかを判断
         $is_user_voted = Vote::select()->where('user_id','=',$user_id)->exists();
 
         // 投票権がない
-        if ($completes_count <= 14 || $is_user_voted) {
+        if ($completed_counts->positive <= 14 || $completed_counts->negative >= 1 || $is_user_voted) {
             return response()->json('You are not allowed to vote.', Response::HTTP_BAD_REQUEST);
         }
 
