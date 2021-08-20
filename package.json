@@ -32,5 +32,8 @@
         "sass-loader": "^11.0.1",
         "tailwindcss": "^2.0.1",
         "vue-loader": "^16.1.2"
+    },
+    "dependencies": {
+        "react-router-dom": "^5.2.0"
     }
 }
