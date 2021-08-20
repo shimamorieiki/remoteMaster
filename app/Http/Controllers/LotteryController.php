@@ -84,7 +84,7 @@ class LotteryController extends Controller
         // $role = (1,管理者),(2,一般ユーザ)
         // 管理者は投票できない
         if ($request->user()->role_id == 1) {
-            return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
+            return response()->json('Admins are not allowed.', Response::HTTP_BAD_REQUEST);
         }
         
         // ユーザのidを取得
@@ -95,41 +95,51 @@ class LotteryController extends Controller
         $voting_number = $request_json["voting_number"];
 
         // ユーザに投票権が存在するか確認する
-
-        // 1. ユーザが達成したポジティブタスクの個数を取得(15個)
-        // $completes_count = Complete::select()->where('user_id','=',$user_id)->where()->count();
-
-        // $tasks = DB::table('completes')
-        // ->join('tasks', 'completes.task_id', '=', 'id')
-        // ->where('user_id','=',$user_id)
-        // ->where('tasks.is_positive_check','=',0)
-        // ->count();
-
-        // 1. ユーザが達成したポジティブタスクの個数を取得(15個)
+        
+        // 1. ポジティブタスクを15個以上達成しているか
         // 2. ネガティブチェックがついているか
-        $completed_counts = DB::table('completes')
-        ->join('tasks', 'completes.task_id', '=', 'id')
+        $positive_counts = DB::table('completes')
+        ->join('tasks', 'completes.task_id', '=', 'tasks.id')
         ->where('user_id','=',$user_id)
-        ->select(DB::raw('count(*) as completes_count, tasks.is_positive_check'))
-        ->groupBy('tasks.is_positive_check')
-        ->get();
+        ->where('tasks.is_positive_check','=',1)
+        ->count();
 
-        // mapかtransformで以下に変換する
+        $negative_counts = DB::table('completes')
+        ->join('tasks', 'completes.task_id', '=', 'tasks.id')
+        ->where('user_id','=',$user_id)
+        ->where('tasks.is_positive_check','=',0)
+        ->count();
+
+        // 本当は一回のDBアクセスで以下を得たい
         // $completed_counts = {
         //  "positive"=>"ポジティブの個数,
         //  "negative"=>"ネガティブの個数"
         // }
 
+        // やろうとしてうまく行かなかった(mapToGroupsが使えそう)
+        
+        // $completed_counts = DB::table('completes')
+        // ->join('tasks', 'completes.task_id', '=', 'tasks.id')
+        // ->where('user_id','=',$user_id)
+        // ->select(DB::raw('count(*) as completes_count, tasks.is_positive_check'))
+        // ->groupBy('tasks.is_positive_check')
+        // ->get()
+        // ->all();
+
+        // $grouped = collect($completed_counts)->mapToGroups(function ($item, $key) {
+        //     return [$item->is_positive_check => $item->completes_count];
+        // });
+
         // 3. すでに投票したかを判断
         $is_user_voted = Vote::select()->where('user_id','=',$user_id)->exists();
 
         // 投票権がない
-        if ($completed_counts->positive <= 14 || $completed_counts->negative >= 1 || $is_user_voted) {
-            return response()->json('You are not allowed to vote.', Response::HTTP_BAD_REQUEST);
+        if ($positive_counts <= 14 || $negative_counts >= 1 || $is_user_voted) {
+            return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
 
         // 投票する
-        $is_voting_inserted = Vote::insertGetId(
+        $is_voting_inserted = Vote::create(
             [
                 'user_id' => $user_id,
                 'voting_number' => $voting_number

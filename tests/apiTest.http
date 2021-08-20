@@ -20,8 +20,8 @@ POST http://localhost/api/login HTTP/1.1
 content-type: application/json
 
 {
-    "email" : "adm@co.jp",
-    "password": "pass"
+    "email" : "gen@co.jp",
+    "password": "word"
 }
 ###
 
@@ -35,7 +35,7 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 # ユーザ情報取得
 ###
 http://localhost/api/user
-Authorization: Bearer 5|F6vti1oN34yRlsGEtM9I6wHUikE7YsxWx7BsfJxn
+Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 ###
 
@@ -47,7 +47,7 @@ Authorization: Bearer 5|F6vti1oN34yRlsGEtM9I6wHUikE7YsxWx7BsfJxn
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 {
     "task_id": 6,
@@ -60,10 +60,10 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 {
-    "task_id": 2,
+    "task_id": 6,
     "is_task_checked" : true
 }
 ###
@@ -71,7 +71,7 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 # 宝くじ情報取得
 ###
 http://localhost/api/lottery
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 ###
 
@@ -80,7 +80,7 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 ###
 POST http://localhost/api/lottery HTTP/1.1
 content-type: application/json
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 {
     "voting_number": 100
