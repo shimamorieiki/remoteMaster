@@ -24,7 +24,7 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
         }
 
         User::create([
