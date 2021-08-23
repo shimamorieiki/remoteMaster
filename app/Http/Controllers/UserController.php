@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Genre;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Vote;
 use App\Models\Complete;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,16 @@ class UserController extends Controller
        
         $user_id = $request->user()->id;
         $task_id = $request->task_id;
+
+        // ユーザが投票したかどうかの情報を取得
+        $is_voted = Vote::select()
+        ->where('user_id','=',$user_id)
+        ->exists();
+        
+        // 投票していたらチェックのオンオフができない
+        if ($is_voted) {
+            return response()->json('already voted of junbo takara-kuji', Response::HTTP_BAD_REQUEST);
+        }
 
         // 命名規則がわかりにくい
         // タスクをチェックしようとしたか外そうとしたか
