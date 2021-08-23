@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Genre;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Vote;
 use App\Models\Complete;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
