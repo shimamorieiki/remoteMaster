@@ -85,7 +85,7 @@ class LotteryController extends Controller
 
         // 自然数かどうかをバリデーションする
         $validator = Validator::make($request->all(), [
-            'voting_number' => 'required|regex:/^[1-9][0-9]+$/',
+            'voting_number' => 'required|regex:/^[1-9][0-9]*$/',
         ]);
 
         if ($validator->fails()) {
