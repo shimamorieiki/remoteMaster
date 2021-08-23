@@ -9,6 +9,7 @@ use App\Models\Vote;
 use App\Models\Complete;
 use Illuminate\Support\Facades\DB;
 use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Validator;
 
 class LotteryController extends Controller
 {
@@ -82,6 +83,16 @@ class LotteryController extends Controller
     public function post_voting(Request $request)
     {    
 
+        // 自然数かどうかをバリデーションする
+        $validator = Validator::make($request->all(), [
+            'voting_number' => 'required|regex:/^[1-9][0-9]+$/',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Require an integer.', Response::HTTP_BAD_REQUEST);
+        }
+
+
         // ユーザが投票できる最小のポジティブタスク達成数(最低でもポジティブタスクを15個達成しないと投票できない)
         $min_voting_positive_count = 15;
 
@@ -97,10 +108,6 @@ class LotteryController extends Controller
         
         // ユーザのidを取得
         $user_id = $request->user()->id;
-
-        // 投票した数字を取得
-        $request_json = json_decode($request->getContent(),true);
-        $voting_number = $request_json["voting_number"];
 
         // ユーザに投票権が存在するか確認する
         
@@ -151,7 +158,7 @@ class LotteryController extends Controller
         $is_voting_inserted = Vote::create(
             [
                 'user_id' => $user_id,
-                'voting_number' => $voting_number
+                'voting_number' => $validator->validated()['voting_number']
             ]
         );
         
