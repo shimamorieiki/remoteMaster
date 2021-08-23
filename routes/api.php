@@ -18,7 +18,7 @@ use App\Http\Controllers\Auth\RegisterController;
 */
 
 // ユーザー登録
-Route::post('/register', [RegisterController::class, 'register']);
+Route::middleware('auth:sanctum')->post('/register', [RegisterController::class, 'register']);
 
 // ログイン
 Route::post('/login', [LoginController::class, 'login']);

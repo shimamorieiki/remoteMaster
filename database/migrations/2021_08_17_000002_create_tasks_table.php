@@ -15,10 +15,11 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->integer('grade_id')->unsigned()->constrained();
             $table->integer('genre_id')->unsigned()->constrained();
             $table->text('description');
+            $table->boolean('is_positive_check');
             $table->timestamps();
         });
     }
