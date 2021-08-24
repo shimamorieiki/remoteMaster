@@ -20,8 +20,8 @@ POST http://localhost/api/login HTTP/1.1
 content-type: application/json
 
 {
-    "email" : "gen@co.jp",
-    "password": "word"
+    "email" : "adm@co.jp",
+    "password": "pass"
 }
 ###
 
@@ -84,5 +84,35 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 
 {
     "voting_number": 100
+}
+###
+
+# タスクを追加する
+###
+POST http://localhost/api/task HTTP/1.1
+content-type: application/json
+Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
+
+{
+    "name": "$request->name",
+    "grade_id": 1,
+    "genre_id": 1,
+    "description": "$request->description",
+    "is_positive_check": true
+}
+###
+
+# タスクの更新
+###
+POST http://localhost/api/task HTTP/1.1
+content-type: application/json
+Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
+
+{
+    "id":7,
+    "name": "update2",
+    "grade_id": 1,
+    "genre_id": 1,
+    "description": "updated this description2"
 }
 ###
