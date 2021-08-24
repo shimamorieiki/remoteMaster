@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\LotteryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -29,16 +30,11 @@ Route::post('/login', [LoginController::class, 'login']);
 // リモ達(api/user)
 Route::middleware('auth:sanctum')->get('/user',[UserController::class, 'get_user_info']);
 Route::middleware('auth:sanctum')->post('/user', [UserController::class, 'post_completed_task']);
-// Route::put($uri, $callback);
-// Route::patch($uri, $callback);
-// Route::delete($uri, $callback);
-// Route::options($uri, $callback);
 
+// タスク追加(api/task)
+Route::middleware('auth:sanctum')->post('/task',[TaskController::class, 'add_new_task']);
+Route::middleware('auth:sanctum')->put('/task', [TaskController::class, 'update_task']);
 
 // 宝くじ(api/lottery)
 Route::middleware('auth:sanctum')->get('/lottery', [LotteryController::class, 'get_winner']);
 Route::middleware('auth:sanctum')->post('/lottery', [LotteryController::class, 'post_voting']);
-// Route::put($uri, $callback);
-// Route::patch($uri, $callback);
-// Route::delete($uri, $callback);
-// Route::options($uri, $callback);
