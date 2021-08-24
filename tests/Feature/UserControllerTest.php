@@ -10,6 +10,8 @@ use Tests\TestCase;
 class UserControllerTest extends TestCase
 {
     use DatabaseTransactions;
+    use RefreshDatabase;
+    
     public function setUp(): void
     {
         parent::setUp();
@@ -19,7 +21,13 @@ class UserControllerTest extends TestCase
     {
         
         // ログインする
-        
+        Sanctum::actingAs(
+            User::create(["ユーザ情報の配列"]),
+            ['*']
+        );
+    
+        // $response = $this->get('/api/task');
+
         // ログイン情報を利用してgetリクエスト飛ばす
         $response = $this->get(route('users.get_user_info'));
 
