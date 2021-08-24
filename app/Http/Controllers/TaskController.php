@@ -61,15 +61,20 @@ class TaskController extends Controller
         //     }
         // }
 
-        $is_task_changed = Task::update(
-            [
-                'name' => $request->name,
-                'grade_id' => $request->grade_id,
-                'genre_id' => $request->genre_id,
-                'description' => $request->description,
-                'is_positive_check' => $request->is_positive_check,
-            ]
-        )->where('id','=',$request->id);
+        // $is_task_changed = DB::raw('UPDATE TABLE SET NAME = (CASE WHEN :newName IS NOT NULL THEN :newName ELSE NAME END),
+        //     AGE  = (CASE WHEN :newAge IS NOT NULL THEN :newAge ELSE AGE END),
+        //     DESCRIPTION  = (CASE WHEN :newDescription IS NOT NULL THEN :newDescription ELSE DESCRIPTION END) WHERE ID = :id;')
+        $is_task_changed = Task::where('id','=',$request->id)
+            ->first()
+            ->update(
+                [
+                    'name' => $request->name,
+                    'grade_id' => $request->grade_id,
+                    'genre_id' => $request->genre_id,
+                    'description' => $request->description,
+                    'is_positive_check' => $request->is_positive_check,
+                ]
+            );
 
         if ($is_task_changed) {
             return response()->json('Accepted', Response::HTTP_OK);
