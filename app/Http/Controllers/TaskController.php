@@ -27,7 +27,7 @@ class TaskController extends Controller
             return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
         }
 
-        $is_task_inserted = Task::create(
+        Task::create(
             [
                 'name' => $request->name,
                 'grade_id' => $request->grade_id,
@@ -36,11 +36,7 @@ class TaskController extends Controller
                 'is_positive_check' => $request->is_positive_check,
             ]
         );
-        if ($is_task_inserted) {
-            return response()->json('Accepted', Response::HTTP_OK);
-        } else {
-            return response()->json('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return response()->json('Accepted', Response::HTTP_OK);
    }
 
     // タスクの一部を変更する
