@@ -104,15 +104,15 @@ Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
 
 # タスクの更新
 ###
-POST http://localhost/api/task HTTP/1.1
+PUT http://localhost/api/task HTTP/1.1
 content-type: application/json
 Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
 
 {
-    "id":7,
-    "name": "update2",
-    "grade_id": 1,
-    "genre_id": 1,
-    "description": "updated this description2"
+    "id":6,
+    "name": "update3",
+    "grade_id": 2,
+    "genre_id": 2,
+    "description": "updated this description3"
 }
 ###
