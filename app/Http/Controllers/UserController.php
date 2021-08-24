@@ -67,7 +67,7 @@ class UserController extends Controller
         
         // 投票していたらチェックのオンオフができない
         if ($is_voted) {
-            return response()->json('Request Denied', Response::HTTP_BAD_REQUEST);
+            return response()->json('already voted of junbo takara-kuji', Response::HTTP_BAD_REQUEST);
         }
 
         // 命名規則がわかりにくい
