@@ -11,5 +11,4 @@ abstract class TestCase extends BaseTestCase
     {
         // ここでマイグレーションとシーディングをする
     }
-
 }

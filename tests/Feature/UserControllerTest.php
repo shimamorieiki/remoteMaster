@@ -6,42 +6,46 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
+use App\Models\User;
+// use Illuminate\Foundation\Testing\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    use RefreshDatabase;
+    // use DatabaseTransactions;
+    // use RefreshDatabase;
     
     // public function setUp(): void
     // {
     //     parent::setUp();
     // }
 
-    // public function test_get_user_info()
-    // {
-        
-    //     // ログインする
-    //     Sanctum::actingAs(
-    //         User::create(["ユーザ情報の配列"]),
-    //         ['*']
-    //     );
+    public function test_get_user_info()
+    {
+        $this->assertTrue(true);
+        // ログインする
+        User::select()->get()->all();
+        // Sanctum::actingAs(
+        //     ['*']
+        // );
     
-    //     // $response = $this->get('/api/task');
+        // $response = $this->get('/api/task');
+        // $response = $this->get('/api/user');
+        // $response->assertOk();
+        // ログイン情報を利用してgetリクエスト飛ばす
+        // $response = $this->get(route('users.get_user_info'));
 
-    //     // ログイン情報を利用してgetリクエスト飛ばす
-    //     $response = $this->get(route('users.get_user_info'));
+        // Taskテーブルのレコード数
+        // $tasks_num = 
 
-    //     // Taskテーブルのレコード数
-    //     // $tasks_num = 
-
-    //     // レスポンスの検証
-    //     $response->assertOk() # ステータスコードが 200
-    //         ->assertJsonCount(1 /* $tasks_num */) # レスポンスの配列の件数がtasksテーブルのレコード数
-    //         // レスポンスで返ってきたものが全て一致する
-    //         ->assertJsonFragment([ # レスポンスJSON に以下の値を含む
-    //             'email' => 'user1@example.com',
-    //         ]);
-    // }
+        // レスポンスの検証
+        // $response->assertOk() # ステータスコードが 200
+        //     ->assertJsonCount(1 /* $tasks_num */) # レスポンスの配列の件数がtasksテーブルのレコード数
+        //     // レスポンスで返ってきたものが全て一致する
+        //     ->assertJsonFragment([ # レスポンスJSON に以下の値を含む
+        //         'email' => 'user1@example.com',
+        //     ]);
+    }
 
     // public function post_completed_task()
     // {
