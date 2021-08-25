@@ -16,7 +16,7 @@ content-type: application/json
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
-POST http://localhost/api/login HTTP/1.1
+POST https://intern-202108-e-shimamori.sandbox.yumemi.io/api/login HTTP/1.1
 content-type: application/json
 
 {
@@ -35,7 +35,7 @@ Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 # ユーザ情報取得
 ###
 http://localhost/api/user
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: Bearer 30|rL5nPgua9KduXqhRiHknhkakQI3Ht8GKg7NNgBeC
 
 ###
 
