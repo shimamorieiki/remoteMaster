@@ -2,50 +2,47 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\RegisterRequest; 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use App\Services\RegisterService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use \Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    private $registerService;
+
+    public function __construct(RegisterService $registerservice)
+    {
+        $this->registerService = $registerservice;
+    }
+
+    public function register(RegisterRequest $request)
     {
 
-        // $role = (1,管理者),(2,一般ユーザ)
-        // 一般ユーザはユーザ登録できない
-        $general_role_id = 1;
-        if ($request->user()->role_type == $general_role_id) {
-            return response()->json('You are not allowed.', Response::HTTP_BAD_REQUEST);
+        // 一般ユーザは確認できない
+        try {
+            $request->user()->must_be_Admin();
+        }catch (HttpResponseException $he) {
+            return response()->json(
+                $he->getResponse()->original,
+                $he->getResponse()->status()
+            );
         }
 
-        /** @var Illuminate\Validation\Validator $validator */
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'role_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
-        }
-
-        $is_registred = User::create([
-            'name' =>  $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
-        ]);
-        if ($is_registred) {
+        // ユーザを登録する
+        try {
+            $this->registerService->register($request);
             return response()->json('User registration completed', Response::HTTP_OK);
-        } else {
-            return response()->json('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (HttpResponseException $he) {
+            return response()->json(
+                $he->getResponse()->original,
+                $he->getResponse()->status()
+            );
         }
     }
 }
