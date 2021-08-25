@@ -2,31 +2,35 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest; 
+use App\Models\User;
+use App\Services\LoginService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
-use App\Models\User;
 use \Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    private $loginService;
+
+    public function __construct(LoginService $loginservice)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $this->loginService = $loginservice;
+    }
 
-        if (Auth::attempt($credentials)) {
-            $user = User::whereEmail($request->email)->first();
-
-            $user->tokens()->delete();
-            $token = $user->createToken("login:user{$user->id}")->plainTextToken;
-
-            return response()->json(['token' => $token ], Response::HTTP_OK);
+    public function login(LoginRequest $request)
+    {
+        // // ログインする
+        try {
+            $token = $this->loginService->login($request);
+            return response()->json($token, Response::HTTP_OK);
+        } catch (HttpResponseException $he) {
+            return response()->json(
+                $he->getResponse()->original,
+                $he->getResponse()->status()
+            );
         }
-
-        return response()->json('User Not Found.', Response::HTTP_BAD_REQUEST);
     }
 }
