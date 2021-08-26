@@ -22,15 +22,15 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // // ログインする
         try {
+            // ログインする
             $token = $this->loginService->login($request);
-            return response()->json($token, Response::HTTP_OK);
+            $response = ["token"=>$token];
+            return response()->success($response);
         } catch (HttpResponseException $he) {
-            return response()->json(
-                $he->getResponse()->original,
-                $he->getResponse()->status()
-            );
+            // ユーザが見つからない時
+            // 受け取り手がメッセージの内容を推測できないのは嬉しくない
+            return response()->badRequest($he->getResponse()->original);
         }
     }
 }
