@@ -37,7 +37,7 @@ class RegisterController extends Controller
         // ユーザを登録する
         try {
             $this->registerService->register($request);
-            return response()->json('User registration completed', Response::HTTP_OK);
+            return response()->success();
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,

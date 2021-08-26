@@ -19,7 +19,8 @@ class RegisterService
                 'role_id' => $request->role_id
             ]);
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            // メールアドレスが同じだというエラーメッセージを出すかどうかは悩むところ
+            throw new HttpResponseException(response()->serverError());
         }
     }
 

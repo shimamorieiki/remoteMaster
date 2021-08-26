@@ -22,20 +22,20 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    // function名は必ず「messages」となります。
-    public function messages(){
-        return [
-            'name.required'       => 'nameを入力してください',
-            'email.required'      => 'emailを入力してください',
-            'email.email'         => 'emailの形式が正しくありません',
-            'password.required'   => 'パスワードを入力してください',
-            'role_id.required'    => 'role_idを入力してください',
-        ];
-    }
+    // public function messages(){
+    //     return [
+    //         'name.required'       => 'nameを入力してください',
+    //         'email.required'      => 'emailを入力してください',
+    //         'email.email'         => 'emailの形式が正しくありません',
+    //         'password.required'   => 'パスワードを入力してください',
+    //         'role_id.required'    => 'role_idを入力してください',
+    //     ];
+    // }
 
     public function failedValidation(Validator $validator){
-        $res = response()->json('Validation Error.',  Response::HTTP_INTERNAL_SERVER_ERROR);
-        throw new HttpResponseException($res);
+        $message = $validator->errors()->all();
+        $response = response()->serverError($message);
+        throw new HttpResponseException($response);
     }
 
 }
