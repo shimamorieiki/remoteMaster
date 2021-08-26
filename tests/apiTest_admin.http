@@ -1,18 +1,5 @@
-# ユーザーeikiのtoken
-# y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
+@token = Bearer 1|kmf88WbvNdDSf81iDnvn4EijR3i8dPi2J0rh3Zkf
 
-
-# ユーザ登録
-###
-POST http://localhost/api/register HTTP/1.1
-content-type: application/json
-
-{
-    "name": "shima",
-    "email" : "sample@gmail.com",
-    "password": "pass"
-}
-###
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
@@ -25,17 +12,25 @@ content-type: application/json
 }
 ###
 
-# ログアウト(認証情報を書き換える？)
+# ユーザ登録
 ###
-http://localhost/api/user
-Authorization: Bearer y8IojJH8Fm3hVUauHbz4zaIPjfLXmyZPuH1HROPL
 
+POST http://localhost/api/register HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "name": "shima",
+    "email" : "sample@gmail.com",
+    "password": "pass",
+    "role_id": 1
+}
 ###
 
 # ユーザ情報取得
 ###
 http://localhost/api/user
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: {{token}}
 
 ###
 
@@ -47,7 +42,7 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: {{token}}
 
 {
     "task_id": 6,
@@ -60,7 +55,7 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 ###
 POST http://localhost/api/user HTTP/1.1
 content-type: application/json
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: {{token}}
 
 {
     "task_id": 6,
@@ -71,7 +66,7 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 # 宝くじ情報取得
 ###
 http://localhost/api/lottery
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: {{token}}
 
 ###
 
@@ -80,7 +75,7 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 ###
 POST http://localhost/api/lottery HTTP/1.1
 content-type: application/json
-Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
+Authorization: Bearer {{token}}
 
 {
     "voting_number": 100
@@ -91,7 +86,7 @@ Authorization: Bearer 3|xseypxVWRYw4rPup7jvRv5XgaSMFyhDwioFCe87n
 ###
 POST http://localhost/api/task HTTP/1.1
 content-type: application/json
-Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
+Authorization: {{token}}
 
 {
     "name": "$request->name",
@@ -106,7 +101,7 @@ Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
 ###
 PUT http://localhost/api/task HTTP/1.1
 content-type: application/json
-Authorization: Bearer 9|JbccOViIXo1YA4Fvo83EoNM5Q01YDpPpOqCif62W
+Authorization: {{token}}
 
 {
     "id":6,

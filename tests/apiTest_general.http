@@ -1,0 +1,113 @@
+@token = Bearer 1|kmf88WbvNdDSf81iDnvn4EijR3i8dPi2J0rh3Zkf
+
+
+# ログイン(認証情報をもとにaccess_tokenを取得)
+###
+POST http://localhost/api/login HTTP/1.1
+content-type: application/json
+
+{
+    "email" : "adm@co.jp",
+    "password": "pass"
+}
+###
+
+# ユーザ登録
+###
+
+POST http://localhost/api/register HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "name": "shima",
+    "email" : "sample@gmail.com",
+    "password": "pass",
+    "role_id": 1
+}
+###
+
+# ユーザ情報取得
+###
+http://localhost/api/user
+Authorization: {{token}}
+
+###
+
+# チェックの可否はフロントエンドで制御
+# チェックできない/チェックを外せない時はエラー
+
+# ユーザが達成項目にチェックする
+# "is_task_checked" : false は現在チェックしていないので「つけようとしている」
+###
+POST http://localhost/api/user HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "task_id": 6,
+    "is_task_checked" : false
+}
+###
+
+# ユーザが達成項目のチェックを外す
+# "is_task_checked" : true は現在チェックしているから「外そうとしている」
+###
+POST http://localhost/api/user HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "task_id": 6,
+    "is_task_checked" : true
+}
+###
+
+# 宝くじ情報取得
+###
+http://localhost/api/lottery
+Authorization: {{token}}
+
+###
+
+
+# 宝くじに応募する
+###
+POST http://localhost/api/lottery HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "voting_number": 100
+}
+###
+
+# タスクを追加する
+###
+POST http://localhost/api/task HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "name": "$request->name",
+    "grade_id": 1,
+    "genre_id": 1,
+    "description": "$request->description",
+    "is_positive_check": true
+}
+###
+
+# タスクの更新
+###
+PUT http://localhost/api/task HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "id":6,
+    "name": "update3",
+    "grade_id": 2,
+    "genre_id": 2,
+    "description": "updated this description3"
+}
+###
