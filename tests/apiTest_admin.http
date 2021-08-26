@@ -1,5 +1,4 @@
-@token = Bearer 1|kmf88WbvNdDSf81iDnvn4EijR3i8dPi2J0rh3Zkf
-
+@token = Bearer 15|1os80WFBW46EqsZn9YkQxkpM0LZ0bomlI79xOueD
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
@@ -20,8 +19,8 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-    "name": "shima",
-    "email" : "sample@gmail.com",
+    "name": "smmr",
+    "email" : "smmr@co.jp",
     "password": "pass",
     "role_id": 1
 }
@@ -75,7 +74,7 @@ Authorization: {{token}}
 ###
 POST http://localhost/api/lottery HTTP/1.1
 content-type: application/json
-Authorization: Bearer {{token}}
+Authorization: {{token}}
 
 {
     "voting_number": 100
@@ -108,6 +107,7 @@ Authorization: {{token}}
     "name": "update3",
     "grade_id": 2,
     "genre_id": 2,
-    "description": "updated this description3"
+    "description": "updated this description3",
+    "is_positive_check": true
 }
 ###
