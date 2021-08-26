@@ -11,10 +11,6 @@ use App\Models\User;
 class VoteControllerTest extends TestCase
 {
     use DatabaseTransactions;
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
 
     public function test_get_winner()
     {

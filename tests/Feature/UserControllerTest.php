@@ -18,15 +18,15 @@ class UserControllerTest extends TestCase
     {
         
         // テストログイン用のユーザー作成
-        $email = 'testadmin@example.com';
-        $password = '12345678';
+        $email = 'testadmin@co.com';
+        $password = 'pass';
         
         // 同名のユーザを削除
         User::where('email', $email)->delete();
 
         // テストユーザ作成
         $user = User::create([
-            'name' => 'TestAdmin',
+            'name' => 'TestAdm',
             'email' => $email,
             'password' => bcrypt($password),
             'role_id' => 1,
@@ -55,15 +55,15 @@ class UserControllerTest extends TestCase
     {
 
         // テストログイン用のユーザー作成
-        $email = 'testadmin@example.com';
-        $password = '12345678';
+        $email = 'testadmin@co.com';
+        $password = 'pass';
         
         // 同名のユーザを削除
         User::where('email', $email)->delete();
 
         // テストユーザ作成
         $user = User::create([
-            'name' => 'TestAdmin',
+            'name' => 'TestAdm',
             'email' => $email,
             'password' => bcrypt($password),
             'role_id' => 1,
