@@ -42,7 +42,8 @@ class LotteryController extends Controller
         try {
             // 投票結果を取得する
             $response = $this->lotteryService->get_winner_and_number();
-            return response()->json($response, Response::HTTP_OK);
+            $vote_result = ["vote_result"=>$response];
+            return response()->success($vote_result);
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,
@@ -53,7 +54,7 @@ class LotteryController extends Controller
    }
 
     // くじに申し込む
-    public function post_voting(LotteryRequest $request)
+    public function post_voting(Request $request)
     {    
 
         try {
@@ -69,7 +70,7 @@ class LotteryController extends Controller
         try {
             // 投票を行う
             $this->lotteryService->vote($request);
-            return response()->json("Accepted", Response::HTTP_OK);
+            return response()->success();
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,

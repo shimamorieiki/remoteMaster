@@ -7,7 +7,6 @@ use \Symfony\Component\HttpFoundation\Response;
 
 class LotteryRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;
@@ -20,15 +19,18 @@ class LotteryRequest extends FormRequest
         ];
     }
 
-    public function messages(){
-        return [
-            'voting_number.required' => '数字を入力してください',
-            'voting_number.regex'    => '自然数を入力してください'
-        ];
-    }
+    // public function messages(){
+    //     return [
+    //         'voting_number.required' => '数字を入力してください',
+    //         'voting_number.regex'    => '自然数を入力してください'
+    //     ];
+    // }
+
 
     public function failedValidation(Validator $validator){
-        throw new HttpResponseException(response('Validation Error.',  Response::HTTP_INTERNAL_SERVER_ERROR));
+        $message = $validator->errors()->all();
+        $response = response()->serverError($message);
+        throw new HttpResponseException($response);
     }
 
 }
