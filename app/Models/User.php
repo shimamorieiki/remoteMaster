@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use \Symfony\Component\HttpFoundation\Response;
 
 class User extends Authenticatable
 {
@@ -59,4 +61,30 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function must_be_Admin()
+    {
+        // $role = (1,管理者),(2,一般ユーザ)
+        if ($this->role_id != 1) {
+            throw new HttpResponseException(
+                response(
+                    "General User Cann't Access",
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
+        }
+    }
+
+    public function must_be_general()
+    {
+        // $role = (1,管理者),(2,一般ユーザ)
+        if ($this->role_id != 2) {
+            throw new HttpResponseException(
+                response(
+                    "Admin User Cann't Access",
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
+        }
+    }
 }
