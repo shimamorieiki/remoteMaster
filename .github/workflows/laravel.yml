@@ -27,11 +27,11 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ./vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles(‘**/composer.lock’) }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
       - name: composer install
-        if: steps.cache.outputs.cache-hit != ‘true’
+        if: steps.cache.outputs.cache-hit != 'true'
         run: composer install -n --prefer-dist
       - name: copy .env
         run: cp .env.example .env
@@ -41,9 +41,9 @@ jobs:
         run: php artisan migrate
       - name: unit test
         run: ./vendor/bin/phpunit
-        
+
   deploy:
-    #needs: laravel-test
+    needs: test
     name: Deploy
     runs-on: ubuntu-latest
     permissions:
