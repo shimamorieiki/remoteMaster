@@ -1,8 +1,12 @@
-@token = Bearer 2|dvr3ex40tVyd1gbiY24GDTHiINaxQen4XxJ1cnhL
+
+@token = Bearer 15|1os80WFBW46EqsZn9YkQxkpM0LZ0bomlI79xOueD
+@aws = https://intern-202108-e-shimamori.sandbox.yumemi.io/api
+@local = http://localhost/api
+@path = {{aws}}
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
-POST http://localhost/api/login HTTP/1.1
+POST {{path}}/login HTTP/1.1
 content-type: application/json
 
 {
@@ -14,7 +18,7 @@ content-type: application/json
 # ユーザ登録
 ###
 
-POST http://localhost/api/register HTTP/1.1
+POST {{path}}/register HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -28,7 +32,7 @@ Authorization: {{token}}
 
 # ユーザ情報取得
 ###
-http://localhost/api/user
+{{path}}/user
 Authorization: {{token}}
 
 ###
@@ -39,7 +43,7 @@ Authorization: {{token}}
 # ユーザが達成項目にチェックする
 # "is_task_checked" : false は現在チェックしていないので「つけようとしている」
 ###
-POST http://localhost/api/user HTTP/1.1
+POST {{path}}/user HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -52,7 +56,7 @@ Authorization: {{token}}
 # ユーザが達成項目のチェックを外す
 # "is_task_checked" : true は現在チェックしているから「外そうとしている」
 ###
-POST http://localhost/api/user HTTP/1.1
+POST {{path}}/user HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -64,7 +68,7 @@ Authorization: {{token}}
 
 # 宝くじ情報取得
 ###
-http://localhost/api/lottery
+{{path}}/lottery
 Authorization: {{token}}
 
 ###
@@ -72,7 +76,7 @@ Authorization: {{token}}
 
 # 宝くじに応募する
 ###
-POST http://localhost/api/lottery HTTP/1.1
+POST {{path}}/lottery HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -83,7 +87,7 @@ Authorization: {{token}}
 
 # タスクを追加する
 ###
-POST http://localhost/api/task HTTP/1.1
+POST {{path}}/task HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
@@ -98,7 +102,7 @@ Authorization: {{token}}
 
 # タスクの更新
 ###
-PUT http://localhost/api/task HTTP/1.1
+PUT {{path}}/task HTTP/1.1
 content-type: application/json
 Authorization: {{token}}
 
