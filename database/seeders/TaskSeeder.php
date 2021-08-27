@@ -74,6 +74,126 @@ class TaskSeeder extends Seeder
         ]);
 
         Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 3 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 4 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 5 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 3 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 4 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 5 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 3 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 4 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_remote_work_tool->id,
+            'name' => 'PC operation',
+            'description' => 'use pc 5 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => $grade_beginner->id,
+            'genre_id' => $genre_env_design->id,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+        
+        Task::create([
             'grade_id' => $grade_bad->id,
             'genre_id' => $genre_negative_check->id,
             'name' => 'Cursing out loud',
