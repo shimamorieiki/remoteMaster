@@ -51,10 +51,6 @@
             "value": "intern-202108-db.cluster-ch3v0aklu64f.ap-northeast-1.rds.amazonaws.com"
           },
           {
-            "name": "DB_PASSWORD",
-            "value": "vTXqburJbWrySQC8"
-          },
-          {
             "name": "DB_USERNAME",
             "value": "e_shimamori"
           },
@@ -80,7 +76,12 @@
         "dnsServers": null,
         "mountPoints": [],
         "workingDirectory": null,
-        "secrets": null,
+        "secrets": [
+          { 
+            "name": "DB_PASSWORD",
+            "valueFrom": "arn:aws:ssm:ap-northeast-1:280107060642:parameter/intern202108/e_shimamori/DB_PASSWORD"
+          }
+        ],
         "dockerSecurityOptions": null,
         "memory": null,
         "memoryReservation": 1024,
@@ -204,19 +205,3 @@
     "proxyConfiguration": null,
     "volumes": []
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
