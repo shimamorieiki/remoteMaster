@@ -31,7 +31,7 @@ class TaskService
                 ]
             );
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
         
     }
@@ -52,7 +52,7 @@ class TaskService
                     ]
                 );
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
   
     }

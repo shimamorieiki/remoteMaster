@@ -17,20 +17,29 @@ class UserService
 {
     public function get_user_info(int $user_id)
     {
-        // 達成したカラムを取得する
-        $completes = Complete::select()
-        ->where('user_id','=',$user_id)
-        ->get()
-        ->pluck("task_id")
-        ->all();
-        
-        // 全てのタスクを取得する
-        $tasks = DB::table('tasks')
-        ->join('genres', 'genres.id', '=', 'tasks.genre_id')
-        ->join('grades', 'grades.id', '=', 'tasks.grade_id')
-        ->select('tasks.*', 'genres.type as genre_type','grades.type as grade_type')
-        ->get()
-        ->all();
+
+        try {
+            // 達成したカラムを取得する
+            $completes = Complete::select()
+            ->where('user_id','=',$user_id)
+            ->get()
+            ->pluck("task_id")
+            ->all();
+        } catch (\Throwable $th) {
+            throw new HttpResponseException(response()->serverError());
+        }
+
+        try {
+            // 全てのタスクを取得する
+            $tasks = DB::table('tasks')
+            ->join('genres', 'genres.id', '=', 'tasks.genre_id')
+            ->join('grades', 'grades.id', '=', 'tasks.grade_id')
+            ->select('tasks.*', 'genres.type as genre_type','grades.type as grade_type')
+            ->get()
+            ->all();
+        } catch (\Throwable $th) {
+            throw new HttpResponseException(response()->serverError());
+        }
 
         // タスクを達成したかの情報を追加する
         for ($i=0; $i < count($tasks); $i++) { 
@@ -49,7 +58,9 @@ class UserService
 
         // 投票していたらチェックのオンオフができない
         if ($is_voted) {
-            throw new HttpResponseException(response("You Can't Check After Vote.",  Response::HTTP_BAD_REQUEST));
+            throw new HttpResponseException(
+                response()->badRequest("You Cannot Check After Vote.")
+            );
         }
         
     }
@@ -77,7 +88,7 @@ class UserService
                                                 ->where('user_id','=',$user_id)
                                                 ->delete();
             } catch (\Throwable $th) {
-                throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+                throw new HttpResponseException(response()->serverError());
             }
 
         } elseif (!$is_task_completed && !$is_task_checked) {
@@ -90,15 +101,17 @@ class UserService
                     ]
                 );
                 if (! $is_completes_inserted) {
-                    throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+                    throw new HttpResponseException(response()->serverError());
                 }
             } catch (\Throwable $th) {
-                throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+                throw new HttpResponseException(response()->serverError());
             }
         } else {
             // completeしたのに追加しようとしている
             // completeしていないのに削除しようとしている
-            throw new HttpResponseException(response("You are not allowed",  Response::HTTP_BAD_REQUEST));
+            throw new HttpResponseException(
+                response()->badRequest("You are not allowed")
+            );
         }
     }
 

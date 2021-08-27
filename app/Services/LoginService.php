@@ -26,9 +26,11 @@ class LoginService
                 $token = $user->createToken("login:user{$user->id}")->plainTextToken;
                 return $token;
             } catch (\Throwable $th) {
-                throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+                throw new HttpResponseException(response()->serverError());
             }            
         }
-        throw new HttpResponseException(response("User Not Found.", Response::HTTP_BAD_REQUEST));
+        throw new HttpResponseException(
+            response()->badRequest("User Not Found.")
+        );
     }
 }

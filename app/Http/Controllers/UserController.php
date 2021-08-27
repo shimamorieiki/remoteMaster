@@ -30,8 +30,9 @@ class UserController extends Controller
    {    
 
         try {
-            $tasks = $this->userService->get_user_info($request->user()->id);
-            return response()->json($tasks, Response::HTTP_OK);
+            $response = $this->userService->get_user_info($request->user()->id);
+            $tasks = ["tasks"=>$response];
+            return response()->success($tasks);
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,
@@ -58,7 +59,7 @@ class UserController extends Controller
         try {
             // completeしたタスクを送信する
             $this->userService->post_completed_task($request);
-            return response()->json('Accepted', Response::HTTP_OK);
+            return response()->success();
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,

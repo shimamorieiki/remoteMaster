@@ -20,7 +20,7 @@ class LotteryService
             return $voting_numbers;
 
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
     }
 
@@ -57,7 +57,7 @@ class LotteryService
             ->first()
             ->name;
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
 
         $value = [
@@ -91,7 +91,7 @@ class LotteryService
             ->count();
 
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
 
         try {
@@ -103,40 +103,32 @@ class LotteryService
             ->count();
 
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
 
-        // 本当は一回のDBアクセスで以下を得たい
-        // $completed_counts = {
-        //  "positive"=>"ポジティブの個数,
-        //  "negative"=>"ネガティブの個数"
-        // }
-
-        // やろうとしてうまく行かなかった(mapToGroupsが使えそう)
-        
-        // $completed_counts = DB::table('completes')
-        // ->join('tasks', 'completes.task_id', '=', 'tasks.id')
-        // ->where('user_id','=',$user_id)
-        // ->select(DB::raw('count(*) as completes_count, tasks.is_positive_check'))
-        // ->groupBy('tasks.is_positive_check')
-        // ->get()
-        // ->all();
-
-        // $grouped = collect($completed_counts)->mapToGroups(function ($item, $key) {
-        //     return [$item->is_positive_check => $item->completes_count];
-        // });
-
-        
         try {
             // 3. すでに投票したかを判断
             $is_user_voted = Vote::select()->where('user_id','=',$user_id)->exists();
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
         
-        // 投票権がない
-        if ($positive_counts < $min_voting_positive_count  || $negative_counts > $max_voting_negative_count  || $is_user_voted) {
-            throw new HttpResponseException(response("You Can't Vote.", Response::HTTP_BAD_REQUEST));
+        if ($positive_counts < $min_voting_positive_count) {
+            throw new HttpResponseException(
+                response()->badRequest("You Don't Have Enough Achievements To Vote.")
+            );
+        }
+
+        if ($negative_counts > $max_voting_negative_count) {
+            throw new HttpResponseException(
+                response()->badRequest("People With Negative Check Cannot Vote.")
+            );
+        }
+
+        if ($is_user_voted) {
+            throw new HttpResponseException(
+                response()->badRequest("You Have Already Voted.")
+            );
         }
 
         try {
@@ -148,7 +140,7 @@ class LotteryService
                 ]
             );
         } catch (\Throwable $th) {
-            throw new HttpResponseException(response("Server Error.", Response::HTTP_INTERNAL_SERVER_ERROR));
+            throw new HttpResponseException(response()->serverError());
         }
     }
 }

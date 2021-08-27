@@ -1,5 +1,4 @@
-@token = Bearer 1|kmf88WbvNdDSf81iDnvn4EijR3i8dPi2J0rh3Zkf
-
+@token = Bearer 16|9WrT9nq2QG2PTfospM7x59GTAPlrrdzDbSc6lL0E
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
@@ -7,8 +6,8 @@ POST http://localhost/api/login HTTP/1.1
 content-type: application/json
 
 {
-    "email" : "adm@co.jp",
-    "password": "pass"
+    "email" : "gen@co.jp",
+    "password": "word"
 }
 ###
 
@@ -20,10 +19,10 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-    "name": "shima",
-    "email" : "sample@gmail.com",
-    "password": "pass",
-    "role_id": 1
+    "name": "eii",
+    "email" : "eii@co.jp",
+    "password": "word",
+    "role_id": 2
 }
 ###
 
@@ -75,7 +74,7 @@ Authorization: {{token}}
 ###
 POST http://localhost/api/lottery HTTP/1.1
 content-type: application/json
-Authorization: Bearer {{token}}
+Authorization: {{token}}
 
 {
     "voting_number": 100

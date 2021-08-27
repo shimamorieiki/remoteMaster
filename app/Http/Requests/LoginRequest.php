@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use \Symfony\Component\HttpFoundation\Response;
 
 class LoginRequest extends FormRequest
 {
@@ -28,14 +31,17 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    // public function messages(){
+    //     return [
+    //         'email.required' => 'emailを入力してください',
+    //         'email.email'    => 'emailの形式が正しくありません',
+    //         'password.required' => 'パスワードを入力してください',
+    //     ];
+    // }
 
-    // function名は必ず「messages」となります。
-    public function messages(){
-        return [
-            'email.required' => 'emailを入力してください',
-            'email.email'    => 'emailの形式が正しくありません',
-            'password.required' => 'パスワードを入力してください',
-        ];
+    public function failedValidation(Validator $validator){
+        $message = $validator->errors()->all();
+        $response = response()->serverError($message);
+        throw new HttpResponseException($response);
     }
-
 }

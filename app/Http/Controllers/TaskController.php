@@ -42,7 +42,7 @@ class TaskController extends Controller
         try {
             // 新しいタスクを追加する
             $this->taskService->add_new_task($request);
-            return response()->json('Accepted', Response::HTTP_OK);
+            return response()->success();
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,
@@ -68,7 +68,7 @@ class TaskController extends Controller
         try {
             // タスクを更新する
             $this->taskService->update_task($request);
-            return response()->json('Accepted', Response::HTTP_OK);
+            return response()->success();
         } catch (HttpResponseException $he) {
             return response()->json(
                 $he->getResponse()->original,

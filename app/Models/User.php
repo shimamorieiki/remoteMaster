@@ -67,10 +67,7 @@ class User extends Authenticatable
         // $role = (1,管理者),(2,一般ユーザ)
         if ($this->role_id != 1) {
             throw new HttpResponseException(
-                response(
-                    "General User Cann't Access",
-                    Response::HTTP_BAD_REQUEST
-                )
+                response()->badRequest("General User Cann't Access")
             );
         }
     }
@@ -80,10 +77,7 @@ class User extends Authenticatable
         // $role = (1,管理者),(2,一般ユーザ)
         if ($this->role_id != 2) {
             throw new HttpResponseException(
-                response(
-                    "Admin User Cann't Access",
-                    Response::HTTP_BAD_REQUEST
-                )
+                response()->badRequest("Admin User Cann't Access")
             );
         }
     }

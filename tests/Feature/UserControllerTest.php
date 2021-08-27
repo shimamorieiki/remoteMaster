@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Vote;
+use App\Models\Genre;
+use App\Models\Grade;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -32,16 +34,75 @@ class UserControllerTest extends TestCase
             'role_id' => 1,
         ]);
         
-        
-        // ログインする
-        $response = $this->actingAs($user)
-                        ->get('api/user');
-        
+        // テストタスク作成
+        // タスクの分類
+        // $genre_remote_work_tool = Genre::create(['type' => 'remote work tool']);
+        // $genre_env_design = Genre::create(['type' => 'environmental design']);
+        // $genre_negative_check = Genre::create(['type' => 'negative check']);
+
+        // // 難易度の分類
+        // $grade_beginner = Grade::create(['type' => 'Beginner']);
+        // $grade_intermediate = Grade::create(['type' => 'Intermediate']);
+        // $grade_advanced = Grade::create(['type' => 'Advanced']);
+        // $grade_bad = Grade::create(['type' => 'bad']);
+
+        // タスク追加
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'PC operation',
+            'description' => 'use pc 3 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'PC operation',
+            'description' => 'use pc 4 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'PC operation',
+            'description' => 'use pc 5 times',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'clean room',
+            'description' => 'clean your room',
+            'is_positive_check' => 1
+        ]);
+
+        Task::create([
+            'grade_id' => 1,
+            'genre_id' => 1,
+            'name' => 'Cursing out loud',
+            'description' => 'Loudly abused a co-worker while at work.',
+            'is_positive_check' => 0
+        ]);
+
         // Taskの個数を取得する
         $tasks_num = Task::select()->count();
-
-        $response->assertOk() // ステータスコードが 200
-                ->assertJsonCount($tasks_num); // Taskテーブルのレコード数と一致
+        
+        // ログインする
+        $response = $this->actingAs($user)->get('api/user');
+        $response->assertOk(); // ステータスコードが 200
+        
+        // $this->assertCount($tasks_num,$response["response"]["tasks"]); // Taskテーブルのレコード数と一致
         
         // 戻り値が正しいかどうかを判断する。
         // Tasksの個数を全部取得できていれば問題ない気もする。
