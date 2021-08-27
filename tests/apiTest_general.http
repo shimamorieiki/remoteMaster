@@ -1,4 +1,4 @@
-@token = Bearer 16|9WrT9nq2QG2PTfospM7x59GTAPlrrdzDbSc6lL0E
+@token = Bearer 1|Bo8AE2U5RxuDYcE9T2ApT7lHMy1bsKts6kIBCAHB
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
@@ -44,7 +44,7 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-    "task_id": 6,
+    "task_id": 15,
     "is_task_checked" : false
 }
 ###

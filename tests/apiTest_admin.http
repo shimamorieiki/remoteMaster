@@ -1,4 +1,4 @@
-@token = Bearer 15|1os80WFBW46EqsZn9YkQxkpM0LZ0bomlI79xOueD
+@token = Bearer 2|dvr3ex40tVyd1gbiY24GDTHiINaxQen4XxJ1cnhL
 
 # ログイン(認証情報をもとにaccess_tokenを取得)
 ###
